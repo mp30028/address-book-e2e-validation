@@ -4,22 +4,14 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-
 import com.zonesoft.addressbook.e2e_validation.pages.IndexPage;
 import com.zonesoft.addressbook.e2e_validation.pages.greeting.HelloPage;
 import com.zonesoft.addressbook.e2e_validation.properties.E2eValidationProperties;
+import com.zonesoft.addressbook.e2e_validation.scenarios.AbstractLandingPage;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
+class TestGreetingScenario extends AbstractLandingPage {
 
-class TestGreetingScenario {
-
-	private static final String EXPECTED_HELLO_LINK_TEXT = "Go to hello page";
-	private static final String EXPECTED_PERSONS_LINK_TEXT = "Persons";
 	
 	private static final int EXPECTED_NUMBER_OF_MESSAGES = 2;
 	private static final String EXPECTED_GREETING_MESSAGE = "Hello, Hello User!";
@@ -31,42 +23,14 @@ class TestGreetingScenario {
 	private static final String EXPECTED_STARTING_PAGE_LINK_TEXT = "Go to starting page";
 	private static final String EXPECTED_STARTING_PAGE_HREF = "/index.html";
 	
-	private IndexPage indexPage;
 	
 	private static E2eValidationProperties properties = new E2eValidationProperties(); 
-	private static WebDriver driver;
-	
-
-	
-	@BeforeAll
-	static void initialiseAtStart() {
-		assertNotNull(properties);
-		WebDriverManager.chromedriver().setup();
-		ChromeOptions options = new ChromeOptions();
-		TestGreetingScenario.driver = new ChromeDriver(options);
-		assertNotNull(driver);
-		String baseUrl = properties.getBaseUrl(); 
-		assertNotNull(baseUrl);
-		TestGreetingScenario.driver.get(properties.getBaseUrl());
-	}
 	
 	@Test
-	void testGreetingScenario() {
+	void runScenario() {
 		IndexPage indexPage = navigate_toIndexPage();
 		HelloPage helloPage = navigate_fromIndexPage_toHelloPage(indexPage);
 		indexPage = navigate_fromHelloPage_toIndexPage(helloPage);
-	}
-
-	
-	private IndexPage navigate_toIndexPage() {
-		indexPage = new IndexPage(driver);
-		validateIndexPage(indexPage);
-		return indexPage;
-	}
-	
-	private void validateIndexPage(IndexPage indexPage) {
-		assertEquals(EXPECTED_HELLO_LINK_TEXT, indexPage.helloLinkText());
-		assertEquals(EXPECTED_PERSONS_LINK_TEXT, indexPage.personsLinkText());
 	}
 
 	private HelloPage navigate_fromIndexPage_toHelloPage(IndexPage indexPage) {

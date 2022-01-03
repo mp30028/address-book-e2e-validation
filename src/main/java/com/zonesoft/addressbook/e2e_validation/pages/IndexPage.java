@@ -5,6 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import com.zonesoft.addressbook.e2e_validation.pages.greeting.HelloPage;
+import com.zonesoft.addressbook.e2e_validation.pages.person.PersonsListingPage;
 
 public class IndexPage {
 
@@ -37,10 +38,10 @@ public class IndexPage {
 		return new HelloPage(driver);
 	}
 	
-//	public PersonsPage personsLinkClick() {
-//		WebElement link = driver.findElement(By.linkText(PERSONS_LINK_TEXT));
-//		link.click();
-//		return new PersonsPage(driver);
-//	}	
+	public PersonsListingPage personsLinkClick() {
+		WebElement link = driver.findElement(By.linkText(PERSONS_LINK_TEXT));
+		link.click();
+		return new PersonsListingPage(driver);
+	}	
 	
 }

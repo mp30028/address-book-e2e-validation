@@ -8,10 +8,14 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import com.zonesoft.addressbook.e2e_validation.pages.IndexPage;
+
 public class PersonsListingPage {
 	private final WebDriver driver;
 	
 	private static final String LISTING_TABLE_PATH = "/html/body/form/table";
+	private static final String HOME_BUTTON_ID = "requestActionHome";
+	private static final String ADD_BUTTON_ID = "requestActionAdd";
 	
 	public PersonsListingPage(WebDriver driver) {
 		this.driver = driver;
@@ -43,6 +47,12 @@ public class PersonsListingPage {
 		return buttonLabels;
 	}
 	
+	public IndexPage homeButtonClick() {
+		WebElement homeButton = driver.findElement(By.id(HOME_BUTTON_ID));
+		homeButton.click();
+		return new IndexPage(driver);
+	}
+	
 	private WebElement getListingTableButtonRowElement() {
 		List<WebElement> tableRows =  getListingTableElement().findElement(By.tagName("tbody")).findElements(By.tagName("tr"));
 		int numberOfRows = tableRows.size();
@@ -57,6 +67,12 @@ public class PersonsListingPage {
 	private WebElement getListingTableElement() {
 		WebElement listingTableElement = driver.findElement(By.xpath(LISTING_TABLE_PATH ));
 		return listingTableElement;
+	}
+
+	public PersonUpdatePage addButtonClick() {
+		WebElement addButton = driver.findElement(By.id(ADD_BUTTON_ID));
+		addButton.click();
+		return new PersonUpdatePage(driver);
 	}
 	
 }

@@ -1,18 +1,16 @@
-package com.zonesoft.addressbook.e2e_validation.scenarios.greeting;
+package com.zonesoft.addressbook.e2e_validation.validators.greeting;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 
-import org.junit.jupiter.api.Test;
-import com.zonesoft.addressbook.e2e_validation.pages.IndexPage;
 import com.zonesoft.addressbook.e2e_validation.pages.greeting.HelloPage;
 import com.zonesoft.addressbook.e2e_validation.properties.E2eValidationProperties;
-import com.zonesoft.addressbook.e2e_validation.scenarios.AbstractLandingPage;
 
-class TestGreetingScenario extends AbstractLandingPage {
-
-	
+public class HelloPageValidator {
+	private static final E2eValidationProperties properties = new E2eValidationProperties();
 	private static final int EXPECTED_NUMBER_OF_MESSAGES = 2;
 	private static final String EXPECTED_GREETING_MESSAGE = "Hello, Hello User!";
 	private static final String EXPECTED_TIME_MESSAGE_STARTS_WITH = "Today is ";
@@ -23,29 +21,17 @@ class TestGreetingScenario extends AbstractLandingPage {
 	private static final String EXPECTED_STARTING_PAGE_LINK_TEXT = "Go to starting page";
 	private static final String EXPECTED_STARTING_PAGE_HREF = "/index.html";
 	
-	
-	private static E2eValidationProperties properties = new E2eValidationProperties(); 
-	
-	@Test
-	void runScenario() {
-		IndexPage indexPage = navigate_toIndexPage();
-		HelloPage helloPage = navigate_fromIndexPage_toHelloPage(indexPage);
-		indexPage = navigate_fromHelloPage_toIndexPage(helloPage);
-	}
-
-	private HelloPage navigate_fromIndexPage_toHelloPage(IndexPage indexPage) {
-		HelloPage helloPage = indexPage.helloLinkClick();
+	public static void validate(final HelloPage helloPage) {
 		validateHelloPage_displayedMessages(helloPage);
 		validateHelloPage_startingPageLink(helloPage);
-		return helloPage;
 	}
-
-	private void validateHelloPage_startingPageLink(HelloPage helloPage) {
+	
+	private static void validateHelloPage_startingPageLink(HelloPage helloPage) {
 		assertEquals(EXPECTED_STARTING_PAGE_LINK_TEXT, helloPage.startingPageLinkText());
 		assertEquals(properties.getBaseUrl() + EXPECTED_STARTING_PAGE_HREF, helloPage.startingPageLinkHref());
 	}
 
-	private void validateHelloPage_displayedMessages(HelloPage helloPage) {
+	private static void validateHelloPage_displayedMessages(HelloPage helloPage) {
 		// Get the messages displayed
 		List<String> messages = helloPage.messagesDisplayedText();
 		assertNotNull(messages);
@@ -59,11 +45,4 @@ class TestGreetingScenario extends AbstractLandingPage {
 		assertEquals(EXPECTED_TIME_MESSAGE_LENGTH,  messages.get(TIME_MESSAGE_INDEX).length());
 	}
 	
-	private IndexPage navigate_fromHelloPage_toIndexPage(HelloPage helloPage) {
-		IndexPage indexPage = helloPage.startingPageLinkClick();
-		validateIndexPage(indexPage);
-		return indexPage;
-	}
-
-
 }
